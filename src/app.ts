@@ -1,9 +1,19 @@
+import { ExpressImplementation } from "./framework/express"
+import { AppRoutesExpress } from "./framework/express/routes"
+import { Server } from "./server"
+
 (() => {
     main()
 })()
 
 async function main() {
-    console.log('main')
+    const express = new ExpressImplementation(
+      {
+        port:3000,
+        routes: AppRoutesExpress.routes
+      }
+    )
+    new Server(express).start()
 }
 
 // Import the functions you need from the SDKs you need
