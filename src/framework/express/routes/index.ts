@@ -24,11 +24,13 @@ export class AppRoutesExpress {
 
     router.post('/api/v1/register', authController.registerUser)
     router.post('/api/v1/login', authController.loginUser)
+
     router.post('/api/v1/category/create', categoryController.createCategory)
     router.get('/api/v1/category/list', categoryController.listCategory)
+    router.get('/api/v1/category/list/:id', categoryController.getOne)
+    router.get('/api/v1/category/list-with-posts', categoryController.listCategoryWithPost)
+    router.delete('/api/v1/category/delete/:id', categoryController.deleteCategory)
 
     return router;
   }
-
-
 }

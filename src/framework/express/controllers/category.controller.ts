@@ -28,4 +28,41 @@ export class CategoryController {
     .then((data) => res.json(data))
     .catch((error) => this.handleError(error, res));
   };
+
+  listCategoryWithPost = (req: Request, res: Response) => {
+    this.categoryService
+    .list(true)
+    .then((data) => res.json(data))
+    .catch((error) => this.handleError(error, res));
+  };
+
+  deleteCategory = (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const categoryId = Number(id)
+
+    if (isNaN(categoryId)) {
+      return res.status(400).json({ error: "Invalid ID provided" });
+    }
+
+    this.categoryService
+    .delete(categoryId)
+    .then((data) => res.json(data))
+    .catch((error) => this.handleError(error, res));
+  };
+
+  getOne = (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const categoryId = Number(id)
+
+    if (isNaN(categoryId)) {
+      return res.status(400).json({ error: "Invalid ID provided" });
+    }
+
+    this.categoryService
+    .getOne(categoryId)
+    .then((data) => res.json(data))
+    .catch((error) => this.handleError(error, res));
+  };
 }

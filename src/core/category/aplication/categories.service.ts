@@ -20,4 +20,20 @@ export default class CategoryService {
             throw error
         }
     }
+
+    async delete(id: number): Promise<string> {
+        try {
+            return await this.repository.delete(id)
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getOne(id: number): Promise<CategoryPresenter>{
+        try {
+            return this.repository.getOne(id)
+        } catch (error) {
+           throw error 
+        }
+    }
 }
