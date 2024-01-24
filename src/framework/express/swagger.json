@@ -1,0 +1,778 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API do test para Novadata",
+    "description": "Essa API tem como objetivo mostrar habilidade do candidato",
+    "termsOfService": "",
+    "contact": {
+      "emai": "bugnonezequiel@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "API de test"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "sumary": "rota para obter token e cadatrar um usuario",
+        "description": "Essa rota sera resposavél de dar um token",
+        "tags": ["user"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register"
+              },
+              "examples": {
+                "register": {
+                  "value": {
+                    "name": "john",
+                    "email": "johndoe@gmail.com",
+                    "password": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "Error during autentication"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "sumary": "rota para obter token",
+        "description": "Essa rota sera resposavél de dar um token",
+        "tags": ["user"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              },
+              "examples": {
+                "register": {
+                  "value": {
+                    "email": "johndoe@gmail.com",
+                    "password": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/create": {
+      "post": {
+        "sumary": "rota para criar uma categoria",
+        "description": "Essa rota sera resposavél de criar uma categoria",
+        "tags": ["category"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/category"
+              },
+              "examples": {
+                "send-category": {
+                  "value": {
+                    "name": "something"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/category-created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/list": {
+      "get": {
+        "sumary": "rota para listar categorias",
+        "description": "Essa rota sera resposavél de listar categorias",
+        "tags": ["category"],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/category-list"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/list/{id}": {
+      "get": {
+        "sumary": "rota para listar uma categoria pelo id",
+        "description": "Essa rota sera resposavél de listar uma categoria",
+        "tags": ["category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da categoria a ser listada",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/category-list-by-id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/list-with-posts": {
+      "get": {
+        "sumary": "rota para listar todas as categorias",
+        "description": "Essa rota sera resposavél de listar todas as categorias",
+        "tags": ["category"],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/category-list-all"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/delete/{id}": {
+      "delete": {
+        "sumary": "rota para apagar uma categoria pelo id",
+        "description": "Essa rota sera resposavél de apagar uma categoria",
+        "tags": ["category"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da categoria a ser apagada",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/category-list-by-id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/create": {
+      "post": {
+        "sumary": "rota para criar um postagem",
+        "description": "Essa rota sera resposavél de criar um postagem",
+        "tags": ["post"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/post"
+              },
+              "examples": {
+                "postExample": {
+                  "value": {
+                    "image": "base64_encoded_image_data",
+                    "content": "New content",
+                    "categoryId": 1,
+                    "title": "Some title"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/post-created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/by-user": {
+      "get": {
+        "sumary": "rota para listar postagems do usuario",
+        "description": "Essa rota sera resposavél de listar postagems do usuario",
+        "tags": ["post"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/post-created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "sumary": "rota para listar postagems (cache redis)",
+        "description": "Essa rota sera resposavél de listar postagems",
+        "tags": ["post"],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/post-created"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/get-one-by-id/{id}": {
+      "get": {
+        "sumary": "rota para listar um postagem pelo id",
+        "description": "Essa rota sera resposavél de listar um postagem",
+        "tags": ["post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da categoria a ser listada",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/post-created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post/delete/{id}": {
+      "delete": {
+        "sumary": "rota para apagar um postagem pelo id",
+        "description": "Essa rota sera resposavél de apagar um postagem",
+        "tags": ["post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da categoria a ser apagada",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/update/{id}": {
+      "put": {
+        "sumary": "rota para atualizar um postagem pelo id, so título e conteúdo",
+        "description": "Essa rota sera resposavél de atualizar um postagem. Você pode enviar apenas um parâmetro ou ambos",
+        "tags": ["post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da categoria a ser atualizada",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "postExample": {
+                  "value": {
+                    "content": "New content",
+                    "title": "Some title"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/post-created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/clear-cache": {
+      "get": {
+        "sumary": "rota para limpar o cache",
+        "description": "Essa rota sera resposavél de para limpar o cache",
+        "tags": ["post"],
+        "responses": {
+          "500": {
+            "description": "Internal server error"
+          },
+          "400": {
+            "description": "invalid sent data"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "profile": {
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "register": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "login": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "category": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "category-list": {
+        "type": "array",
+        "items": {
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "category-list-by-id": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "authorId": {
+                  "type": "number"
+                },
+                "categoryId": {
+                  "type": "number"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "category-list-all": {
+        "type": "array",
+        "items": {
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            },
+            "posts": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "authorId": {
+                    "type": "number"
+                  },
+                  "categoryId": {
+                    "type": "number"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  },
+                  "updatedAt": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "category-created": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "post": {
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
+          "content": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "post-created": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "constent": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "authorId": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

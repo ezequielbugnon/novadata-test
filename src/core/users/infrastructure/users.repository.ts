@@ -5,8 +5,6 @@ import IUsersRepository, { UserPresenter } from "../domain/users-repository.inte
 import { BcryptAdapter } from "../../../libs/bcrypt";
 import { CustomError } from "../../common/error/custom.error";
 
-
-
 export default class UserRepositoryPrisma implements IUsersRepository{
     private db;
     constructor(){

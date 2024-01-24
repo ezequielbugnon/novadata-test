@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import fileUpload from 'express-fileupload'
 import cors from 'cors'
 import IFrameWork from '../interface.framework';
 
@@ -28,6 +29,10 @@ export class ExpressImplementation implements IFrameWork {
     this.app.use( express.json() );
     this.app.use( express.urlencoded({ extended: true }) ); 
     this.app.use( cors())
+    this.app.use(fileUpload({
+      useTempFiles : true,
+      tempFileDir : './uploads'
+  }));
 
 
     this.app.use( this.routes );
