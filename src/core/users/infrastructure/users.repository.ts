@@ -45,6 +45,7 @@ export default class UserRepositoryPrisma implements IUsersRepository{
                 data: user.get()
             })
         } catch (error) {
+            console.log(error)
             throw error
         }
     } 

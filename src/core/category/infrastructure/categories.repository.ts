@@ -33,6 +33,7 @@ export default class CategoryRepositoryPrisma implements ICategoryRepository {
 
       return await prisma.category.findMany(filter);
     } catch (error) {
+      console.log(error)
       throw error;
     }
   }
